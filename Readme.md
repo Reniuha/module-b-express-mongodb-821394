@@ -28,6 +28,7 @@ Tai paleis tiek aplikaciją, tiek MongoDB konteineryje.
 
 Savo kompiuteryje naudokit:
 ```sh
+npm i
 npm start
 ```
 
@@ -46,7 +47,7 @@ Galite pridėti savo modelius, maršrutus ir funkcionalumą aplankuose `models/`
 
 ## 🛠 Naudotos technologijos
 - **Node.js** + **Express**
-- **MongoDB** + **Mongoose**
+- **MoriaDB** + **Typeorm**
 - **Docker** + **Docker Compose**
 
 
