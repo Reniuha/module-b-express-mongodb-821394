@@ -1,34 +1,28 @@
 require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2');
+const mongoose = require('mongoose')
 const cors = require('cors');
-
+const Travel = require('./routes/Travel')
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // Database connection pool
-const db = mysql.createPool({
-    host: process.env.DB_HOST || 'db',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'password',
-    database: process.env.DB_NAME || 'competition',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+try {
+    const db = mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.PORT}/${process.env.DB_NAME}`);
+} catch (err) {
+    console.log(err)
+}
+
+// Routes 
+app.use('/places', Travel)
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // Check database connection
-db.getConnection((err, connection) => {
-    if (err) {
-        console.error('❌ MySQL connection error:', err);
-    } else {
-        console.log('✅ MariaDB connected');
-        connection.release();
-    }
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB');
 });
 
 // Welcome Route
@@ -36,9 +30,11 @@ app.get('/', (req, res) => {
     res.send('🚀 Welcome to the Competition WEB <dev> Challenge 2025 Node.js template!');
 });
 
-
-
 // Start Server
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+
+// I dont know what im doing
+// I wanna go home 😭😭😭😭

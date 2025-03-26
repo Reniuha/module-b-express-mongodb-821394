@@ -1,0 +1,9 @@
+const Travel = require('../models/place');
+
+const getTravel = async (req, res) => {
+    const newTravel = new Travel(req.body);
+    await newTravel.save();
+    res.status(201).json(newTravel);
+}
+
+module.exports = getTravel;
